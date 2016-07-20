@@ -1,12 +1,12 @@
 package main;
 import yahoofinance.*;
 
-public class stockWorker {
-    private String queryTicker; 
+public class StockWorker {
+    private final String queryTicker; 
     private Stock thisStock;
     
-    public stockWorker(String ticker){
-        final String queryTicker = ticker;
+    public StockWorker(String ticker){
+        queryTicker = ticker;
         updateTicker();
     }
     
