@@ -68,10 +68,10 @@ public class Init extends Application{
         column.setFillWidth(true);
         grid.getColumnConstraints().add(column);
         
-        grid.setPrefSize(200, 250);
+        grid.setPrefSize(500, 600);
         
-        Scene scene = new Scene(grid,200,250);
-        scene.getStylesheets().add("style-sheets/tickerlist.css");
+        Scene scene = new Scene(grid, 500, 600);
+        scene.getStylesheets().add(getClass().getResource("tickerlist.css").toExternalForm());
         
         
         primaryStage.setScene(scene);
@@ -135,15 +135,15 @@ public class Init extends Application{
         
         for(String ticker : tickerList){
         	Label name = new Label(ticker + ": ");
-        	name.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
+        	//name.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
         	grid.add(name, 0, tickerList.indexOf(ticker) + 4);
         	
         	Label price = new Label();
-        	price.setFont(Font.font("Tahoma", 14));
+        	//price.setFont(Font.font("Tahoma", 14));
         	grid.add(price, 1, tickerList.indexOf(ticker) + 4);
         	
         	Label change = new Label();
-            change.setFont(Font.font("Tahoma",14));
+            //change.setFont(Font.font("Tahoma",14));
         	grid.add(change, 2, tickerList.indexOf(ticker) + 4);
         	priceMap.put(ticker, price);
         	changeMap.put(ticker, change);
