@@ -107,7 +107,7 @@ public class TextFileWorker {
     
     /** 
      * Sort and return the tickers in baseTickerList. This mutates the ordering of baseTickerList
-     * internal to this instance textFileWorker instance. 
+     * internal to this textFileWorker instance. 
      * @return the sorted baseTickerList.
      */
     public List<String> sortTickers(){

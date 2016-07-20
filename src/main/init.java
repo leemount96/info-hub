@@ -28,7 +28,7 @@ import javafx.concurrent.*;
  * Application that serves as an easy to use finance and other related news source
  */
 public class Init extends Application{
-	private final static TextFileWorker tfw = new TextFileWorker("text-files/base-tickers");
+	private final static TextFileWorker tfw = new TextFileWorker("text-files/base-tickers-short");
 	private final static EmailGenerator generator = new EmailGenerator();
 	
 	/**
@@ -51,52 +51,29 @@ public class Init extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Scene scene = new Scene(grid, 300, 275);
+        Scene scene = new Scene(grid);
         primaryStage.setScene(scene);
         
-        Text scenetitle = new Text("Sample updating prices");
+        Text scenetitle = new Text("Ticker List");
         scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
         grid.add(scenetitle, 0, 0, 2, 1);
         
-        Map<String, Label> tickerMap = new HashMap<>();
+        Map<String, Label> priceMap = new HashMap<>();
+        Map<String, Label> changeMap = new HashMap<>();
         
         for(String ticker : tickerList){
         	Label name = new Label(ticker + ": ");
         	grid.add(name, 0, tickerList.indexOf(ticker) + 1);
         	Label price = new Label();
         	grid.add(price, 1, tickerList.indexOf(ticker) + 1);
-        	tickerMap.put(ticker, price);
+        	Label change = new Label();
+        	grid.add(change, 2, tickerList.indexOf(ticker) + 1);
+        	priceMap.put(ticker, price);
+        	changeMap.put(ticker, change);
         }
         
-        /*
-         * Experimenting with new thread for each stock vs all on same thread
-         */
-//        Task refreshPrice = new Task<Void>(){
-//            @Override
-//            public Void call() throws Exception{
-//                while(true){
-//                    Platform.runLater(new Runnable(){
-//                        @Override
-//                        public void run(){
-//                            try{
-//                            	for(String ticker : tickerMap.keySet()){
-//                            		Stock stock = YahooFinance.get(ticker);
-//                            		tickerMap.get(ticker).setText("" + stock.getQuote().getPrice());
-//                            	}
-//                            }catch(Exception e){}
-//                        }
-//                    });
-//                    Thread.sleep(5000);
-//                }
-//            }
-//        };
-//  
-//        Thread th = new Thread(refreshPrice);
-//        th.setDaemon(true);
-//        th.start();
-        
-        for(String ticker : tickerMap.keySet()){
-        	Task refresh = new Task<Void>(){
+        for(String ticker : priceMap.keySet()){
+        	Task<Void> refresh = new Task<Void>(){
         		@Override
         		public Void call() throws Exception{
         			while(true){
@@ -105,11 +82,12 @@ public class Init extends Application{
         					public void run(){
         						try{
         							Stock stock = YahooFinance.get(ticker);
-        							tickerMap.get(ticker).setText("" + stock.getQuote().getPrice());
+        							priceMap.get(ticker).setText("" + stock.getQuote().getPrice());
+        							changeMap.get(ticker).setText("" + stock.getQuote().getChangeInPercent() + "%");
         						}catch(Exception e){}
         					}
         				});
-        				Thread.sleep(20000);
+        				Thread.sleep(5000);
         			}
         		}
         	};
