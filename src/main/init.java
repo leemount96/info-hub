@@ -51,8 +51,8 @@ public class Init extends Application{
         grid.setVgap(10);
         grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Scene scene = new Scene(grid);
-        scene.getStylesheets().add("style-sheets/tickerlist.css");
+        Scene scene = new Scene(grid, 500, 500);
+        scene.getStylesheets().add(getClass().getResource("tickerlist.css").toExternalForm());
         
         primaryStage.setScene(scene);
         
