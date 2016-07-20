@@ -46,30 +46,105 @@ public class Init extends Application{
         List<String> tickerList = tfw.getBaseTickers();
         
         GridPane grid = new GridPane();
-        grid.setAlignment(Pos.CENTER);
-        grid.setHgap(10);
-        grid.setVgap(10);
-        grid.setPadding(new Insets(25, 25, 25, 25));
         
-        Scene scene = new Scene(grid);
+        grid.setAlignment(Pos.CENTER);
+        grid.setVgap(3);
+        grid.setHgap(3);
+        grid.setPadding(new Insets(10, 10, 10, 10));     
+        
+        // Setting columns size in percent
+        ColumnConstraints column = new ColumnConstraints();
+        column.setPercentWidth(33.4);
+        column.setFillWidth(true);
+        grid.getColumnConstraints().add(column);
+
+        column = new ColumnConstraints();
+        column.setPercentWidth(33.3);
+        column.setFillWidth(true);
+        grid.getColumnConstraints().add(column);
+
+        column = new ColumnConstraints();
+        column.setPercentWidth(33.3);
+        column.setFillWidth(true);
+        grid.getColumnConstraints().add(column);
+        
+        grid.setPrefSize(200, 250);
+        
+        Scene scene = new Scene(grid,200,250);
         scene.getStylesheets().add("style-sheets/tickerlist.css");
+        
         
         primaryStage.setScene(scene);
         
+        
         Text scenetitle = new Text("Ticker List");
-        scenetitle.setFont(Font.font("Tahoma", FontWeight.NORMAL, 20));
-        grid.add(scenetitle, 0, 0, 2, 1);
+        scenetitle.setFont(Font.font("Tahoma", FontWeight.BOLD, 20));
+        grid.add(scenetitle, 0, 0, 3, 1);
+        
+        Label statusBar = new Label("Status:");
+        grid.add(statusBar, 0, 1);
+        
+        Label currentStatus = new Label("Running.");
+        grid.add(currentStatus, 1,1,2,1);
+        
+        TextField tickerField = new TextField();
+        tickerField.setPromptText("Enter a ticker.");
+        grid.add(tickerField, 0, 2, 1, 1);
+        
+        Button addButton = new Button("Add");
+        addButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox addBox = new HBox(10);
+        addBox.setAlignment(Pos.BOTTOM_RIGHT);
+        addBox.getChildren().add(addButton);
+        grid.add(addButton, 1, 2,1,1);
+        GridPane.setFillWidth(addButton, true);
+        
+        Button delButton = new Button("Delete");
+        delButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox delBox = new HBox(10);
+        delBox.setAlignment(Pos.BOTTOM_RIGHT);
+        delBox.getChildren().add(delButton);
+        grid.add(delButton, 2, 2, 1,1);
+        GridPane.setFillWidth(delButton, true);        
+        
+        Button tickerButton = new Button("Ticker");
+        tickerButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox tickerBox = new HBox(10);
+        tickerBox.getChildren().add(tickerButton);
+        grid.add(tickerButton, 0, 3, 1,1);
+        GridPane.setFillWidth(tickerButton, true);
+ 
+        Button priceButton = new Button("Price");
+        priceButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox priceBox = new HBox(10);
+        priceBox.setAlignment(Pos.BOTTOM_RIGHT);
+        priceBox.getChildren().add(tickerButton);
+        grid.add(priceButton, 1, 3, 1,1);
+        GridPane.setFillWidth(priceButton, true);
+        
+        Button changeButton = new Button("Change");
+        changeButton.setMaxSize(Double.MAX_VALUE, Double.MAX_VALUE);
+        HBox changeBox = new HBox(10);
+        changeBox.setAlignment(Pos.BOTTOM_RIGHT);
+        changeBox.getChildren().add(changeButton);
+        grid.add(changeButton, 2, 3, 1,1);
+        GridPane.setFillWidth(changeButton, true);
         
         Map<String, Label> priceMap = new HashMap<>();
         Map<String, Label> changeMap = new HashMap<>();
         
         for(String ticker : tickerList){
         	Label name = new Label(ticker + ": ");
-        	grid.add(name, 0, tickerList.indexOf(ticker) + 1);
+        	name.setFont(Font.font("Tahoma", FontWeight.BOLD, 14));
+        	grid.add(name, 0, tickerList.indexOf(ticker) + 4);
+        	
         	Label price = new Label();
-        	grid.add(price, 1, tickerList.indexOf(ticker) + 1);
+        	price.setFont(Font.font("Tahoma", 14));
+        	grid.add(price, 1, tickerList.indexOf(ticker) + 4);
+        	
         	Label change = new Label();
-        	grid.add(change, 2, tickerList.indexOf(ticker) + 1);
+            change.setFont(Font.font("Tahoma",14));
+        	grid.add(change, 2, tickerList.indexOf(ticker) + 4);
         	priceMap.put(ticker, price);
         	changeMap.put(ticker, change);
         }
@@ -86,6 +161,7 @@ public class Init extends Application{
         							Stock stock = YahooFinance.get(ticker);
         							priceMap.get(ticker).setText("" + stock.getQuote().getPrice());
         							changeMap.get(ticker).setText("" + stock.getQuote().getChangeInPercent() + "%");
+        							changeMap.get(ticker).setStyle("-fx-background-color: green);");
         						}catch(Exception e){}
         					}
         				});
