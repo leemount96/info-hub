@@ -52,6 +52,8 @@ public class Init extends Application{
         grid.setPadding(new Insets(25, 25, 25, 25));
         
         Scene scene = new Scene(grid);
+        scene.getStylesheets().add("style-sheets/tickerlist.css");
+        
         primaryStage.setScene(scene);
         
         Text scenetitle = new Text("Ticker List");
