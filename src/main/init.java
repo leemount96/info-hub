@@ -28,7 +28,7 @@ import javafx.concurrent.*;
  * Application that serves as an easy to use finance and other related news source
  */
 public class Init extends Application{
-	private final static TextFileWorker tfw = new TextFileWorker("text-files/base-tickers-short");
+	private final static TextFileWorker tfw = new TextFileWorker("text-files/base-tickers");
 	private final static EmailGenerator generator = new EmailGenerator();
 	
 	/**
@@ -109,7 +109,7 @@ public class Init extends Application{
         						}catch(Exception e){}
         					}
         				});
-        				Thread.sleep(5000);
+        				Thread.sleep(20000);
         			}
         		}
         	};

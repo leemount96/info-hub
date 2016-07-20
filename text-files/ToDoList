@@ -1,0 +1,25 @@
+1. Implement Stock Ticker List
+	-Lock down UI design
+	-Pull all initial stock info from YF
+	-Get window sized and all tickers displaying
+	-Implement updating of tickers on separate threads with price and % daily change
+	-Implement add/remove ticker
+	-Implement sorting & displaying by ticker/price/change
+	-Make tickers buttons
+	-Make button link to more stock specific info
+	-Design UI for stock specific info
+	
+2. General Info Tab
+	-Lock down UI design
+	-Implement weather displaying (current location or type in?)
+	-Implement current time/date display
+	-Design what we want for major news
+	-Build web scraping for major news
+	-Design what we want for recent IPOs
+	
+3. Automated Emails
+	-Discuss what we want in email (biggest movers, big news stories, IPO summary, etc.)
+	-Figure out how we determine who email will go to - one user per instance of app, input a list of emails, etc.
+	-Write content generator class
+	-Figure out how to implement a timer, ie. send an email every night at 4am
+	-Already have email sending class + email account to send from, need to figure out where to call it
