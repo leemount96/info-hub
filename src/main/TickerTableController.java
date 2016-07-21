@@ -93,21 +93,28 @@ public class TickerTableController {
     @FXML 
     protected void handleAddTickerAction(ActionEvent event) {
     	String tickerName = tickerField.getText();
-    	masterData.add(new StockWorker(tickerName));
-    	tfw.addTicker(tickerName);
+    	if(tfw.addTicker(tickerName)){
+    		masterData.add(new StockWorker(tickerName));
+    	}else{
+    		//Set status to say "Invalid Ticker" or something
+    	}
     	tickerField.clear();
     }
     
     @FXML
     protected void handleRemoveTickerAction(ActionEvent event){
     	String tickerName = tickerField.getText();
-    	for(StockWorker s : masterData){
-    		if(s.getTicker().equals(tickerName)){
-    			masterData.remove(s);
-    			tfw.deleteTicker(tickerName);
-    			tickerField.clear();
-    			break;
+    	if(tfw.deleteTicker(tickerName)){
+    		for(StockWorker s : masterData){
+    			if(s.getTicker().equals(tickerName)){
+    				masterData.remove(s);
+    				tfw.deleteTicker(tickerName);
+    				tickerField.clear();
+    				break;
+    			}
     		}
+    	}else{
+    		//Set status to say "Invalid Ticker" or something
     	}
     }
 }

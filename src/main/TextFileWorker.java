@@ -12,6 +12,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Scanner;
 import java.util.Set;
+import yahoofinance.*;
 
 /** Stores text file ticker data and interfaces with text files when text file
  * changes are needed. Tickers should only occur in baseTickerList once, if at all.
@@ -56,38 +57,46 @@ public class TextFileWorker {
     /** Adds a ticker to base-tickers.txt and this textFileWorker.
      * @param ticker the ticker to add to base-tickers.txt. If the ticker is not a valid
      * ticker that works with YahooFinance, then no ticker is added (nothing happens). 
-     * @return the updated ticker list.
+     * @return true if ticker was succesfully added, false otherwise
      * @throws IOException 
      */
-    public List<String> addTicker(String ticker){
+    public boolean addTicker(String ticker){
     	if (containedTickers.contains(ticker)){
-    		return this.getBaseTickers();
+    		return false;
     	}else{
-    		ticker = ticker.toUpperCase();
-    		
-    		baseTickerList.add(ticker);
-    		containedTickers.add(ticker);
-    		
-    		ticker = " " + ticker;
-    		
-    		try {
-				Files.write(Paths.get(this.filePath), ticker.getBytes(), StandardOpenOption.APPEND);
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-    		
-    		return this.getBaseTickers();
+    		try{
+    			if(YahooFinance.get(ticker).getQuote().getPrice() == null){
+    				return false;
+    			}else{
+    	    		ticker = ticker.toUpperCase();
+    	    		
+    	    		baseTickerList.add(ticker);
+    	    		containedTickers.add(ticker);
+    	    		
+    	    		ticker = " " + ticker;
+    	    		
+    	    		try {
+    					Files.write(Paths.get(this.filePath), ticker.getBytes(), StandardOpenOption.APPEND);
+    				} catch (IOException e) {
+    					e.printStackTrace();
+    				}
+    	    		
+    	    		return true;
+    			}
+    		}catch (Exception e){
+    			return false;
+    		}
     	}
     }
     
     /** Removes a ticker from base-tickers.txt.
      * @param ticker the ticker to remove from base-tickers.txt. If the ticker is not contained
      * in base-tickers.txt, then no ticker is removed (nothing happens).
-     * @return the updated ticker list.
+     * @return true if ticker succesfully removed from list, false otherwise
      */
-    public List<String> deleteTicker(String ticker){
+    public boolean deleteTicker(String ticker){
         if (!containedTickers.contains(ticker)){
-        	return this.getBaseTickers();
+        	return false;
         }else{
         	baseTickerList.remove(ticker);
         	containedTickers.remove(ticker);
@@ -103,7 +112,7 @@ public class TextFileWorker {
 			} catch (Exception e) {
 				e.printStackTrace();
 			}
-        	return this.getBaseTickers();
+        	return true;
         }
     }
     

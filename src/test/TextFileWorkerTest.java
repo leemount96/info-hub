@@ -28,10 +28,10 @@ public class TextFileWorkerTest {
 		assertEquals(t.getBaseTickers(), new ArrayList<>());
 	}
 	
-	//Test short file
+	//Test short file add & remove
 	@Test
 	public void testShortFile(){
-		TextFileWorker t = new TextFileWorker("text-files/base-tickers-short");
+		TextFileWorker t = new TextFileWorker("text-files/base-tickers-test");
 		ArrayList<String> list = new ArrayList<String>();
 		list.add("AAPL");
 		list.add("AMZN");
@@ -62,5 +62,25 @@ public class TextFileWorkerTest {
 		java.util.Collections.sort(list);
 		
 		assertEquals(fromT, list);
+	}
+	
+	//Test adding invalid ticker & ticker that is already on list
+	@Test
+	public void testAddInvalidTicker(){
+		TextFileWorker t = new TextFileWorker("text-files/base-tickers-test");
+		assertFalse(t.addTicker("ABCDEFG"));
+		assertTrue(t.addTicker("K"));
+		assertFalse(t.addTicker("K"));
+		t.deleteTicker("K");
+	}
+	
+	//Test removing invalid ticker, ticker in list, ticker not in list
+	@Test
+	public void testDeleteInvalidTicker(){
+		TextFileWorker t = new TextFileWorker("text-files/base-tickers-test");
+		assertTrue(t.deleteTicker("AAPL"));
+		assertFalse(t.deleteTicker("AAPL"));
+		assertFalse(t.deleteTicker("ABCDEFG"));
+		assertTrue(t.addTicker("AAPL"));
 	}
 }
