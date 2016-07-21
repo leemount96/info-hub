@@ -68,6 +68,8 @@ public class TextFileWorker {
     		baseTickerList.add(ticker);
     		containedTickers.add(ticker);
     		
+    		ticker = " " + ticker;
+    		
     		try {
 				Files.write(Paths.get(this.filePath), ticker.getBytes(), StandardOpenOption.APPEND);
 			} catch (IOException e) {
