@@ -48,7 +48,7 @@ public class TickerTableController {
 
 	private ObservableList<StockWorker> masterData = FXCollections.observableArrayList();
 	
-	private final TextFileWorker tfw = new TextFileWorker("text-files/base-tickers-short");
+	private final TextFileWorker tfw = new TextFileWorker("text-files/base-tickers");
 	
 	private final EmailGenerator generator = new EmailGenerator();
 	
