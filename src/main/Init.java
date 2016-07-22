@@ -50,6 +50,7 @@ public class Init extends Application{
             primaryStage.setScene(scene);
             primaryStage.show();
         } catch (IOException e) {
+        	
             e.printStackTrace();
         }
     }

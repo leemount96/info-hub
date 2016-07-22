@@ -81,14 +81,14 @@ public class TickerTableController {
                 System.out.println("Update number " + t.getSource().getValue());
                 count.set((int) t.getSource().getValue());
                 
-                /* CODE THAT BLOCKS */
+                /* CODE THAT BLOCKS 
                 if(!(count.get()==1)){
                     System.out.println("Reupdating the tickers.");
                     for(StockWorker worker: masterData){
                         worker.updateTicker();
                     }
                 }
-                /* END CODE THAT BLOCKS */
+                 END CODE THAT BLOCKS */
                 
         		tickerColumn.setCellValueFactory(cellData -> cellData.getValue().tickerProperty());
         		priceColumn.setCellValueFactory(cellData -> cellData.getValue().priceProperty());
